@@ -14,6 +14,15 @@
 		7B4555C221ECEEE400DDBA7D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B4555C021ECEEE400DDBA7D /* LaunchScreen.storyboard */; };
 		7B4555CD21ECEEE500DDBA7D /* notinstagramTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4555CC21ECEEE500DDBA7D /* notinstagramTests.swift */; };
 		7B4555D821ECEEE500DDBA7D /* notinstagramUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4555D721ECEEE500DDBA7D /* notinstagramUITests.swift */; };
+		7B4555EA21ED474700DDBA7D /* FloatingActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4555E921ED474700DDBA7D /* FloatingActionButton.swift */; };
+		7B4555EC21ED7D6F00DDBA7D /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4555EB21ED7D6F00DDBA7D /* Post.swift */; };
+		7B4555EE21ED7FB800DDBA7D /* ButtonX.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4555ED21ED7FB800DDBA7D /* ButtonX.swift */; };
+		7B4555F021ED80F500DDBA7D /* PostManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4555EF21ED80F400DDBA7D /* PostManager.swift */; };
+		7B4555F421ED821300DDBA7D /* PostTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4555F321ED821300DDBA7D /* PostTableViewCell.swift */; };
+		7B4555F621ED8A4400DDBA7D /* PostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4555F521ED8A4400DDBA7D /* PostViewController.swift */; };
+		7BBB835021EE4BD9005A5C8D /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBB834F21EE4BD9005A5C8D /* ProfileViewController.swift */; };
+		7BBB835221EE4C4B005A5C8D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBB835121EE4C4B005A5C8D /* User.swift */; };
+		7BBB835421EE4CEA005A5C8D /* ProfileCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BBB835321EE4CEA005A5C8D /* ProfileCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +56,15 @@
 		7B4555D321ECEEE500DDBA7D /* notinstagramUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = notinstagramUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B4555D721ECEEE500DDBA7D /* notinstagramUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = notinstagramUITests.swift; sourceTree = "<group>"; };
 		7B4555D921ECEEE500DDBA7D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7B4555E921ED474700DDBA7D /* FloatingActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingActionButton.swift; sourceTree = "<group>"; };
+		7B4555EB21ED7D6F00DDBA7D /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		7B4555ED21ED7FB800DDBA7D /* ButtonX.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonX.swift; sourceTree = "<group>"; };
+		7B4555EF21ED80F400DDBA7D /* PostManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostManager.swift; sourceTree = "<group>"; };
+		7B4555F321ED821300DDBA7D /* PostTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostTableViewCell.swift; sourceTree = "<group>"; };
+		7B4555F521ED8A4400DDBA7D /* PostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostViewController.swift; sourceTree = "<group>"; };
+		7BBB834F21EE4BD9005A5C8D /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		7BBB835121EE4C4B005A5C8D /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		7BBB835321EE4CEA005A5C8D /* ProfileCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileCollectionViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,11 +115,12 @@
 		7B4555B621ECEEE300DDBA7D /* notinstagram */ = {
 			isa = PBXGroup;
 			children = (
+				7B4555E821ECEF0C00DDBA7D /* StoryBoard */,
+				7B4555E721ECEF0600DDBA7D /* Model */,
+				7B4555E621ECEF0100DDBA7D /* View */,
+				7B4555E521ECEEF800DDBA7D /* Controller */,
 				7B4555B721ECEEE300DDBA7D /* AppDelegate.swift */,
-				7B4555B921ECEEE300DDBA7D /* ViewController.swift */,
-				7B4555BB21ECEEE300DDBA7D /* Main.storyboard */,
 				7B4555BE21ECEEE400DDBA7D /* Assets.xcassets */,
-				7B4555C021ECEEE400DDBA7D /* LaunchScreen.storyboard */,
 				7B4555C321ECEEE400DDBA7D /* Info.plist */,
 			);
 			path = notinstagram;
@@ -123,6 +142,46 @@
 				7B4555D921ECEEE500DDBA7D /* Info.plist */,
 			);
 			path = notinstagramUITests;
+			sourceTree = "<group>";
+		};
+		7B4555E521ECEEF800DDBA7D /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				7B4555F521ED8A4400DDBA7D /* PostViewController.swift */,
+				7B4555B921ECEEE300DDBA7D /* ViewController.swift */,
+				7BBB834F21EE4BD9005A5C8D /* ProfileViewController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		7B4555E621ECEF0100DDBA7D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				7B4555E921ED474700DDBA7D /* FloatingActionButton.swift */,
+				7B4555ED21ED7FB800DDBA7D /* ButtonX.swift */,
+				7B4555F321ED821300DDBA7D /* PostTableViewCell.swift */,
+				7BBB835321EE4CEA005A5C8D /* ProfileCollectionViewCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		7B4555E721ECEF0600DDBA7D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				7B4555EB21ED7D6F00DDBA7D /* Post.swift */,
+				7B4555EF21ED80F400DDBA7D /* PostManager.swift */,
+				7BBB835121EE4C4B005A5C8D /* User.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		7B4555E821ECEF0C00DDBA7D /* StoryBoard */ = {
+			isa = PBXGroup;
+			children = (
+				7B4555BB21ECEEE300DDBA7D /* Main.storyboard */,
+				7B4555C021ECEEE400DDBA7D /* LaunchScreen.storyboard */,
+			);
+			path = StoryBoard;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -256,8 +315,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B4555F621ED8A4400DDBA7D /* PostViewController.swift in Sources */,
+				7B4555EE21ED7FB800DDBA7D /* ButtonX.swift in Sources */,
 				7B4555BA21ECEEE300DDBA7D /* ViewController.swift in Sources */,
+				7BBB835421EE4CEA005A5C8D /* ProfileCollectionViewCell.swift in Sources */,
+				7B4555EA21ED474700DDBA7D /* FloatingActionButton.swift in Sources */,
+				7B4555F421ED821300DDBA7D /* PostTableViewCell.swift in Sources */,
 				7B4555B821ECEEE300DDBA7D /* AppDelegate.swift in Sources */,
+				7BBB835021EE4BD9005A5C8D /* ProfileViewController.swift in Sources */,
+				7B4555EC21ED7D6F00DDBA7D /* Post.swift in Sources */,
+				7BBB835221EE4C4B005A5C8D /* User.swift in Sources */,
+				7B4555F021ED80F500DDBA7D /* PostManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -439,7 +507,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cambraverman.notinstagram;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cambraverman.localchat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -457,7 +525,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.cambraverman.notinstagram;
+				PRODUCT_BUNDLE_IDENTIFIER = com.cambraverman.localchat;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
