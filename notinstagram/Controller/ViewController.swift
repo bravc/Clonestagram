@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Alamofire
 
 class ViewController: UIViewController {
 
@@ -18,6 +19,8 @@ class ViewController: UIViewController {
     @IBOutlet weak var postTable: UITableView!
     @IBOutlet weak var navBar: UINavigationItem!
     
+    var imagePicker: UIImagePickerController!
+    var pickedImage: UIImage?
     var posts: [Post]?
     
     override func viewDidLoad() {
@@ -25,8 +28,6 @@ class ViewController: UIViewController {
         // set up radii
         floatingActionButton.layer.cornerRadius = 30
         fabView.layer.cornerRadius = fabView.frame.size.height / 2;
-        
-//        navBar.rightBarButtonItem = UIBarButtonItem(title: "Edit", style: .plain, target: self, action: #selector(addPressed)
         
         navBar.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(addPressed))
 
@@ -56,7 +57,10 @@ class ViewController: UIViewController {
     }
     
     @objc func addPressed() {
-        
+        imagePicker =  UIImagePickerController()
+        imagePicker.delegate = self
+        imagePicker.sourceType = UIImagePickerController.SourceType.photoLibrary
+        present(imagePicker, animated: true, completion: nil)
     }
     
     @IBAction func settingsPressed(_ sender: Any) {
@@ -82,6 +86,11 @@ class ViewController: UIViewController {
             let profile = User(username: "koolcam", posts: posts!, followers: 200, following: 30)
             
             profileViewController.profile = profile
+        } else if segue.identifier == "uploadSegue" {
+            let uploadViewController = segue.destination as! ImageUploadViewController
+            if let pickedImage = pickedImage {
+                uploadViewController.pickedImage = pickedImage
+            }
         }
     }
 }
@@ -112,5 +121,29 @@ extension ViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
         return UITableView.automaticDimension
     }
+}
+
+extension ViewController: UIImagePickerControllerDelegate {
+
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        self.dismiss(animated: true, completion: nil)
+        
+        if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            self.pickedImage = pickedImage
+            performSegue(withIdentifier: "uploadSegue", sender: self)
+        } else {
+            DispatchQueue.main.async {
+                let errorAlert = UIAlertController(title: "Cannot Upload", message: "No Photo Chosen!", preferredStyle: .alert)
+                errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                
+                self.present(errorAlert, animated: true, completion: nil)
+            }
+        }
+    }
+}
+
+extension ViewController: UINavigationControllerDelegate {
+    
 }
 
