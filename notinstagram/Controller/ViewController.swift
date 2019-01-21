@@ -23,18 +23,51 @@ class ViewController: UIViewController {
     var pickedImage: UIImage?
     var posts: [Post]?
     
+    lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action:
+            #selector(ViewController.handleRefresh(_:)),
+                                 for: UIControl.Event.valueChanged)
+        refreshControl.tintColor = UIColor.red
+        
+        return refreshControl
+    }()
+    
+    // Refresh posts on drag
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        PostManager.getPosts(completion: {(posts) -> Void in
+            self.posts = posts
+
+        })
+        self.postTable.reloadData()
+        refreshControl.endRefreshing()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        // refresh
+        self.postTable.addSubview(self.refreshControl)
+        
         // set up radii
         floatingActionButton.layer.cornerRadius = 30
-        fabView.layer.cornerRadius = fabView.frame.size.height / 2;
+        fabView.layer.cornerRadius = fabView.frame.size.height / 2
         
+        self.postTable.estimatedRowHeight = 500
+        self.postTable.rowHeight = UITableView.automaticDimension
+        
+        self.postTable.dataSource = self
+        self.postTable.delegate = self
         navBar.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(addPressed))
 
         
-        posts = PostManager.getPosts()
-        postTable.dataSource = self
-        postTable.delegate = self
+        
+        
+        // get initial posts
+        PostManager.getPosts(completion: {(posts) -> Void in
+            self.posts = posts
+            self.postTable.reloadData()
+        })
+        
         // set menu to initially be closed
         closeMenu()
     }
@@ -73,12 +106,14 @@ class ViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // Post detail segue
         if segue.identifier == "postDetails" {
             let detailViewController = segue.destination as! PostViewController
             
             let row = self.postTable.indexPathForSelectedRow!.row
             
             detailViewController.post = posts![row]
+        // profile segue
         } else if segue.identifier == "profileSegue" {
             let profileViewController = segue.destination as! ProfileViewController
             
@@ -102,7 +137,11 @@ extension ViewController: UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return posts!.count
+        if let _ = posts {
+            return 1
+        } else {
+            return 0
+        }
     }
     
     
@@ -110,8 +149,7 @@ extension ViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as! PostTableViewCell
         
         let post = posts![indexPath.row]
-        
-        cell.setup(image: post.image, author: post.author)
+        cell.setup(post: post)
         
         return cell
     }
@@ -127,15 +165,16 @@ extension ViewController: UIImagePickerControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
+        // dismiss image picker menu
         self.dismiss(animated: true, completion: nil)
         
         if let pickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             self.pickedImage = pickedImage
             performSegue(withIdentifier: "uploadSegue", sender: self)
         } else {
+            // show alert for menu
             DispatchQueue.main.async {
-                let errorAlert = UIAlertController(title: "Cannot Upload", message: "No Photo Chosen!", preferredStyle: .alert)
-                errorAlert.addAction(UIAlertAction(title: "Ok", style: .default, handler: nil))
+                let errorAlert = CBAlert.errorAlert(title: "Cannot Upload", message: "No Photo Chosen!")
                 
                 self.present(errorAlert, animated: true, completion: nil)
             }

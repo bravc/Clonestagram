@@ -23,15 +23,17 @@ class ProfileViewController: UIViewController {
     
     var profile: User?
     
-    var posts = [Post]()
+    var posts: [Post]?
 
     override func viewDidLoad() {
         super.viewDidLoad()
         postCollectionView.dataSource = self
-        posts = PostManager.getPosts()
+        PostManager.getPosts(completion: {(posts) -> Void in
+            self.posts = posts
+            self.postCollectionView.reloadData()
+        })
         
         if let profile = profile {
-            profileImage.image = profile.posts?[0].image
             profileName.text = profile.username
             profileBio.text = "This is my bio"
             numPostsLabel.text = "\(profile.posts?.count ?? 0)"
@@ -54,7 +56,7 @@ class ProfileViewController: UIViewController {
             let selectedCell = sender as! ProfileCollectionViewCell
             let indexPath = postCollectionView?.indexPath(for: selectedCell)
             
-            postDeatilViewController.post = posts[(indexPath?.row)!]
+            postDeatilViewController.post = posts?[(indexPath?.row)!]
             
         }
     }
@@ -63,14 +65,22 @@ class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return posts.count
+        if let posts = posts {
+            profileImage.imageFromURL(urlString: posts[0].image_url)
+            return posts.count
+        } else {
+            return 0
+        }
         
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "profileCell", for: indexPath) as! ProfileCollectionViewCell
         
-        cell.setup(post: posts[indexPath.row])
+        if let posts = posts {
+            cell.setup(post: posts[indexPath.row])
+        }
+        
         
         return cell
     }

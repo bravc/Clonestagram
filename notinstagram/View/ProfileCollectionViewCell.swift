@@ -13,6 +13,6 @@ class ProfileCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var postImage: UIImageView!
     
     func setup(post: Post) {
-        self.postImage.image = post.image
+        postImage.imageFromURL(urlString: post.image_url)
     }
 }

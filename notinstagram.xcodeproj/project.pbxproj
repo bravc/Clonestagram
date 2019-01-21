@@ -9,6 +9,11 @@
 /* Begin PBXBuildFile section */
 		20B588BE498856FC76F063FA /* Pods_notinstagramUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BB00342B623418CCEFDEA448 /* Pods_notinstagramUITests.framework */; };
 		7B3FCBAD21EFAE1200EF6C90 /* ImageUploadViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3FCBAC21EFAE1200EF6C90 /* ImageUploadViewController.swift */; };
+		7B3FCBAF21F0119F00EF6C90 /* CBAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3FCBAE21F0119F00EF6C90 /* CBAlert.swift */; };
+		7B3FCBB121F2393000EF6C90 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3FCBB021F2393000EF6C90 /* LoginViewController.swift */; };
+		7B3FCBB321F23CE300EF6C90 /* UserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3FCBB221F23CE300EF6C90 /* UserManager.swift */; };
+		7B3FCBB521F28D3100EF6C90 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3FCBB421F28D3100EF6C90 /* NetworkManager.swift */; };
+		7B3FCBB721F3C0EA00EF6C90 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B3FCBB621F3C0EA00EF6C90 /* Comment.swift */; };
 		7B4555B821ECEEE300DDBA7D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4555B721ECEEE300DDBA7D /* AppDelegate.swift */; };
 		7B4555BA21ECEEE300DDBA7D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B4555B921ECEEE300DDBA7D /* ViewController.swift */; };
 		7B4555BD21ECEEE300DDBA7D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7B4555BB21ECEEE300DDBA7D /* Main.storyboard */; };
@@ -53,6 +58,11 @@
 		33F45EB7C9D111DD09B971FE /* Pods-notinstagramTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-notinstagramTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-notinstagramTests/Pods-notinstagramTests.release.xcconfig"; sourceTree = "<group>"; };
 		707BE2A20659D992E82AE0B3 /* Pods_notinstagram.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_notinstagram.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B3FCBAC21EFAE1200EF6C90 /* ImageUploadViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUploadViewController.swift; sourceTree = "<group>"; };
+		7B3FCBAE21F0119F00EF6C90 /* CBAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CBAlert.swift; sourceTree = "<group>"; };
+		7B3FCBB021F2393000EF6C90 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		7B3FCBB221F23CE300EF6C90 /* UserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserManager.swift; sourceTree = "<group>"; };
+		7B3FCBB421F28D3100EF6C90 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		7B3FCBB621F3C0EA00EF6C90 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		7B4555B421ECEEE300DDBA7D /* notinstagram.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = notinstagram.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7B4555B721ECEEE300DDBA7D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7B4555B921ECEEE300DDBA7D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -170,6 +180,7 @@
 				7B4555B921ECEEE300DDBA7D /* ViewController.swift */,
 				7BBB834F21EE4BD9005A5C8D /* ProfileViewController.swift */,
 				7B3FCBAC21EFAE1200EF6C90 /* ImageUploadViewController.swift */,
+				7B3FCBB021F2393000EF6C90 /* LoginViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -181,6 +192,7 @@
 				7B4555ED21ED7FB800DDBA7D /* ButtonX.swift */,
 				7B4555F321ED821300DDBA7D /* PostTableViewCell.swift */,
 				7BBB835321EE4CEA005A5C8D /* ProfileCollectionViewCell.swift */,
+				7B3FCBAE21F0119F00EF6C90 /* CBAlert.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -191,6 +203,9 @@
 				7B4555EB21ED7D6F00DDBA7D /* Post.swift */,
 				7B4555EF21ED80F400DDBA7D /* PostManager.swift */,
 				7BBB835121EE4C4B005A5C8D /* User.swift */,
+				7B3FCBB221F23CE300EF6C90 /* UserManager.swift */,
+				7B3FCBB421F28D3100EF6C90 /* NetworkManager.swift */,
+				7B3FCBB621F3C0EA00EF6C90 /* Comment.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -434,12 +449,20 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-notinstagram/Pods-notinstagram-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/HydraAsync/Hydra.framework",
+				"${BUILT_PRODUCTS_DIR}/KeychainAccess/KeychainAccess.framework",
+				"${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Hydra.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeychainAccess.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SDWebImage.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -453,14 +476,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7B3FCBB121F2393000EF6C90 /* LoginViewController.swift in Sources */,
 				7B4555F621ED8A4400DDBA7D /* PostViewController.swift in Sources */,
 				7B4555EE21ED7FB800DDBA7D /* ButtonX.swift in Sources */,
+				7B3FCBB321F23CE300EF6C90 /* UserManager.swift in Sources */,
+				7B3FCBB521F28D3100EF6C90 /* NetworkManager.swift in Sources */,
+				7B3FCBB721F3C0EA00EF6C90 /* Comment.swift in Sources */,
 				7B4555BA21ECEEE300DDBA7D /* ViewController.swift in Sources */,
 				7BBB835421EE4CEA005A5C8D /* ProfileCollectionViewCell.swift in Sources */,
 				7B4555EA21ED474700DDBA7D /* FloatingActionButton.swift in Sources */,
 				7B4555F421ED821300DDBA7D /* PostTableViewCell.swift in Sources */,
 				7B4555B821ECEEE300DDBA7D /* AppDelegate.swift in Sources */,
 				7BBB835021EE4BD9005A5C8D /* ProfileViewController.swift in Sources */,
+				7B3FCBAF21F0119F00EF6C90 /* CBAlert.swift in Sources */,
 				7B4555EC21ED7D6F00DDBA7D /* Post.swift in Sources */,
 				7B3FCBAD21EFAE1200EF6C90 /* ImageUploadViewController.swift in Sources */,
 				7BBB835221EE4C4B005A5C8D /* User.swift in Sources */,
