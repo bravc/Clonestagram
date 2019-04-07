@@ -8,13 +8,10 @@
 
 import UIKit
 
-class Comment: NSObject {
+struct Comment: Codable {
     
-    var author: String!
-    var text: String!
-    
-    init(author: String, text: String) {
-        self.author = author
-        self.text = text
-    }
+    let id: Int
+    let text: String
+    let created_at: String
+    let user: User
 }

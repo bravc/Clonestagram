@@ -10,20 +10,12 @@ import UIKit
 
 class FloatingActionButton: ButtonX {
 
-    /*
-    // Only override draw() if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func draw(_ rect: CGRect) {
-        // Drawing code
-    }
-    */
-    
     var alpaBefore: CGFloat?
     
     override func beginTracking(_ touch: UITouch, with event: UIEvent?) -> Bool {
         alpaBefore = self.alpha
         
-        // rotate the
+        // rotate the button
         UIView.animate(withDuration: 0.3, animations: {
             if self.transform == .identity {
                 self.transform = CGAffineTransform(rotationAngle: 45 * (.pi / 180))

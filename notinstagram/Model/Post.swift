@@ -8,17 +8,16 @@
 
 import UIKit
 
-class Post: NSObject {
+typealias Posts = [Post]
+
+struct Post: Codable {
     
-    var image_url: String!
-    var author: String!
-    var desc: String!
-    var comments: [Comment]!
+    let id: Int
+    let description: String
+    let image_url: String
+    let likes: Int
+    let user: User
+    let created_at: String
+    let comments: [Comment] = []
     
-    init(image_url: String, author: String, description: String, comments: [Comment] = []) {
-        self.image_url = image_url
-        self.author = author
-        self.desc = description
-        self.comments = comments
-    }
 }

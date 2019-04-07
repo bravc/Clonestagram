@@ -10,41 +10,49 @@ import UIKit
 
 class PostViewController: UIViewController {
 
+    // MARK:  Outlets
     @IBOutlet weak var postImage: UIImageView!
     @IBOutlet weak var authorLabel: UILabel!
     @IBOutlet weak var descLabel: UILabel!
     @IBOutlet weak var commentTable: UITableView!
-    var post: Post?
+    
+    // MARK:  Properties
+    var postModel: TableViewModel?
+    var comments: [Comment]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         commentTable.dataSource = self
-        if let post = post {
-            postImage.imageFromURL(urlString: post.image_url)
-            authorLabel.text = post.author
-            descLabel.text = post.desc
-            
-            
+        
+        if postModel != nil {
+            updateUI()
         }
-
+    }
+    
+    /// Update the UI
+    func updateUI() {
+        comments = postModel!.comments
+        authorLabel.text = postModel!.user.name
+        descLabel.text = postModel!.description
+        postImage.imageFromURL(urlString: postModel!.image_url)
     }
 }
 
 extension PostViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let post = post {
-            return post.comments.count
+        if let comments = comments {
+            return comments.count
         }
         return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "commentCell", for: indexPath)
+        if let comments = comments {
+            cell.textLabel?.text = comments[indexPath.row].text
+            cell.detailTextLabel?.text = comments[indexPath.row].user.name
+        }
         
-        cell.detailTextLabel?.text = post!.comments[indexPath.row].text
-        cell.textLabel?.text = post!.comments[indexPath.row].author
         return cell
     }
-
-
 }

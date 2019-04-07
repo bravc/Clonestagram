@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  HomeViewController.swift
 //  notinstagram
 //
 //  Created by Cameron Braverman on 1/14/19.
@@ -8,9 +8,12 @@
 
 import UIKit
 import Alamofire
+import SwiftyJSON
+import KeychainAccess
 
-class ViewController: UIViewController {
+class HomeViewController: UIViewController {
 
+    // MARK: Outlets
     @IBOutlet weak var fabView: UIView!
     @IBOutlet weak var floatingActionButton: UIButton!
     @IBOutlet weak var settingsButton: UIButton!
@@ -18,30 +21,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var searchButton: UIButton!
     @IBOutlet weak var postTable: UITableView!
     @IBOutlet weak var navBar: UINavigationItem!
-    
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+
+    // MARK:  Properties
     var imagePicker: UIImagePickerController!
     var pickedImage: UIImage?
-    var posts: [Post]?
+    let viewModel = HomeViewModel(client: NotInstagramClient())
     
     lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
         refreshControl.addTarget(self, action:
-            #selector(ViewController.handleRefresh(_:)),
+            #selector(HomeViewController.handleRefresh(_:)),
                                  for: UIControl.Event.valueChanged)
         refreshControl.tintColor = UIColor.red
-        
+
         return refreshControl
     }()
-    
-    // Refresh posts on drag
-    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
-        PostManager.getPosts(completion: {(posts) -> Void in
-            self.posts = posts
-
-        })
-        self.postTable.reloadData()
-        refreshControl.endRefreshing()
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -52,26 +47,53 @@ class ViewController: UIViewController {
         floatingActionButton.layer.cornerRadius = 30
         fabView.layer.cornerRadius = fabView.frame.size.height / 2
         
+        // setup views
         self.postTable.estimatedRowHeight = 500
         self.postTable.rowHeight = UITableView.automaticDimension
+        navBar.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(addPressed))
         
+        // declare delegates
         self.postTable.dataSource = self
         self.postTable.delegate = self
-        navBar.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "plus"), style: .plain, target: self, action: #selector(addPressed))
-
         
+        self.activityIndicator.hidesWhenStopped = true
+        // Init View model
+        viewModel.showLoading = {
+            if self.viewModel.isLoading {
+                self.activityIndicator.startAnimating()
+                self.postTable.alpha = 0.0
+            } else {
+                self.activityIndicator.stopAnimating()
+                self.postTable.alpha = 1.0
+            }
+        }
         
+        viewModel.showError = { error in
+            self.present(CBAlert.errorAlert(title: "Error", message: error.localizedDescription), animated: true)
+        }
         
-        // get initial posts
-        PostManager.getPosts(completion: {(posts) -> Void in
-            self.posts = posts
+        viewModel.reloadData = {
             self.postTable.reloadData()
-        })
+        }
+        
+        viewModel.fetchPosts()
+
         
         // set menu to initially be closed
         closeMenu()
     }
+    
+    // MARK:  Outlet Actions
+    // Refresh posts on drag
+    @objc func handleRefresh(_ refreshControl: UIRefreshControl) {
+        viewModel.fetchPosts()
+        refreshControl.endRefreshing()
+    }
 
+    
+    /// Animate the FAB button
+    ///
+    /// - Parameter sender:
     @IBAction func floatingActionButtonPressed(_ sender: Any) {
         UIView.animate(withDuration: 0.3, animations: {
             if self.fabView.transform == .identity {
@@ -106,21 +128,21 @@ class ViewController: UIViewController {
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        // close menu first
+        closeMenu()
+        
         // Post detail segue
         if segue.identifier == "postDetails" {
             let detailViewController = segue.destination as! PostViewController
-            
-            let row = self.postTable.indexPathForSelectedRow!.row
-            
-            detailViewController.post = posts![row]
-        // profile segue
-        } else if segue.identifier == "profileSegue" {
+
+            let postModel = viewModel.tableViewModels[self.postTable.indexPathForSelectedRow!.section]
+
+            detailViewController.postModel = postModel
+        }
+        else if segue.identifier == "profileSegue" {
             let profileViewController = segue.destination as! ProfileViewController
             
-            // TODO Add profile manager
-            let profile = User(username: "koolcam", posts: posts!, followers: 200, following: 30)
-            
-            profileViewController.profile = profile
+            profileViewController.user_id = User.myself?.id
         } else if segue.identifier == "uploadSegue" {
             let uploadViewController = segue.destination as! ImageUploadViewController
             if let pickedImage = pickedImage {
@@ -130,38 +152,49 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: UITableViewDataSource {
+// MARK:  Tableview Datasource
+extension HomeViewController: UITableViewDataSource {
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return self.viewModel.tableViewModels.count
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if let _ = posts {
-            return 1
-        } else {
-            return 0
-        }
+        return 1
     }
-    
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "postCell", for: indexPath) as! PostTableViewCell
         
-        let post = posts![indexPath.row]
-        cell.setup(post: post)
+        cell.postImage.imageFromURL(urlString: viewModel.tableViewModels[indexPath.section].image_url)
+        cell.postDesc.text = viewModel.tableViewModels[indexPath.section].description
+        cell.authorLabel.text = viewModel.tableViewModels[indexPath.section].user.name
+        cell.likesLabel.text = "\(viewModel.tableViewModels[indexPath.section].likes) likes"
+
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "headerCell") as! PostHeaderTableViewCell
+        
+        cell.user = viewModel.tableViewModels[section].user
+        cell.backgroundColor = UIColor.white
         
         return cell
     }
-}
-
-extension ViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UITableView.automaticDimension
+    
+    
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 47
     }
 }
 
-extension ViewController: UIImagePickerControllerDelegate {
+extension HomeViewController: UITableViewDelegate {
+    
+}
+
+// MARK:  ImagePickerDelegate
+extension HomeViewController: UIImagePickerControllerDelegate {
 
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
@@ -182,7 +215,7 @@ extension ViewController: UIImagePickerControllerDelegate {
     }
 }
 
-extension ViewController: UINavigationControllerDelegate {
+extension HomeViewController: UINavigationControllerDelegate {
     
 }
 
